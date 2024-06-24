@@ -1,0 +1,7 @@
+hostname: oe24-ah-1OG-V5
+ansible_ssh_user: ansible
+ansible_ssh_pass: ansible#543.
+ansible_become_method: enable
+ansible_become: yes
+#ansible_become_pass: xxxxx
+ansible_network_os: dellemc.os6.os6

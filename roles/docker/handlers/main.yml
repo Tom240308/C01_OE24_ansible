@@ -1,0 +1,6 @@
+---
+# Handler to restart the docker service
+- name: docker_restart
+  service:
+    name: "docker"
+    state: restarted

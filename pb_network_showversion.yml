@@ -1,0 +1,13 @@
+---
+hosts: oe24-ah-1OG-V5
+connection: network_cli
+gather_facts: no
+
+tasks:
+- name: "Get Dell EMC  Show version"
+  dellos6_command:
+    commands: ['show version']
+  register: show_ver
+
+- debug: var=show_ver
+...

@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "SSH FS - ansible_at_azurelx2",
+			"uri": "ssh://ansible_at_azurelx2/home/admpillatt/ansible"
+		}
+	],
+	"settings": {
+		"azureAutomation.directory.basePath": "C:\\Users\\TomPillat\\OneDrive - allcore GmbH\\DEVELOP\\00_config\\AzureVsCodeExt"
+	}
+}

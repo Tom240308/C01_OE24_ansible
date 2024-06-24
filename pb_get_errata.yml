@@ -1,0 +1,7 @@
+- hosts:
+    - co-4lc4v, co-4lv5v
+  tasks:
+    - name: Get Errate
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest

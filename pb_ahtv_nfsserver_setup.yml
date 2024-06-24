@@ -1,0 +1,39 @@
+---
+- name: Ansible Create user  at 4lc old
+  # Defining the remote server inventory host group
+  hosts: ahtvnfs
+  become: yes
+  
+  tasks:
+
+  - name: Add the user 'Erwin Jenisch' 
+    ansible.builtin.user:
+      name: admjenischer
+      # comment: Erwin Jenisch # comment doesnt work at the moment on Rocky 8.7
+      state: present
+  
+  - name: Make user 'Erwin Jenisch' member off the wheel group
+    ansible.builtin.user:
+      name: admjenischer
+      #state: present
+      #comment: Erwin Jenisch
+      groups: wheel
+      append: yes
+
+  - name: Set authorized key for user 'Erwin Jenisch'
+    ansible.posix.authorized_key:
+      user: admjenischer
+      state: present
+      key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtr82krC+QOu8wNNk1aQtxufQ74InP8J47c/BAYcguZtAyX4dE7CZsAbP+yjUlQ7ZqpmUySG0zJmxYz1FD1Azf0bIHMGriGjyGsANmiKxGPnCQhMXqJtqzueAcV/fp1ntGl/hYiZf6ikgN7F6Q5JMduhzY4puRq1dzrBsuIEr7UDvhnoqJDGyPk5mDT1dSGFXBXqpjL+HQgQfnIwjKpQl+gxpL8bUiAr5hVF+UPh2NPBaCKdC/btpeSW9qPD2aEMV/AfPVApQJezHsPqvqAH7O30a5WmkW6iWhmHv1eFXGETVVCad9xDD3B1LS2xkkIOQNFceb4M1mxibmsGK316R7 rsa-key-20240115"    
+
+
+  
+######################
+# Users to remove
+######################
+  - name: Remove the user 'benedekma' if present 
+    ansible.builtin.user:
+      name: benedekma
+      state: absent
+      remove: yes
+...

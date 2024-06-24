@@ -1,0 +1,1 @@
+mysql_root_pwd: "{{ _vault_mysql_root_pwd }}"

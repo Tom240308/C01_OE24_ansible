@@ -1,0 +1,22 @@
+[puzzleflow]
+# not managable ssh host key problems, host is to old
+#co-pfdb1v ansible_host=10.20.0.31
+#co-pfdb2v ansible_host=10.20.0.32
+#co-pfs-db3 ansible_host=10.20.0.131 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+#co-pfs-db4 ansible_host=10.20.0.132
+
+[clover.old]
+# not manageable by Ansible, python to old
+#co-4lc1v ansible_host=10.20.0.90
+#co-4lc2v ansible_host=10.20.0.91
+
+[clover]
+co-4lc4v ansible_host=10.20.0.161
+co-4lc5v ansible_host=10.20.0.162
+
+[TVNFS]
+ah-tvnfs03v ansible_host=10.10.0.193
+
+
+#[dellos6]
+#oe24-ah-1OG-V5 ansible_host=10.15.253.19

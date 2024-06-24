@@ -1,0 +1,100 @@
+---
+- name: Clover Setup
+  # Defining the remote server inventory host group
+  hosts: clover
+  become: true
+  tasks:
+
+  - name: Prepare filesystem and os-users
+    block:
+    - name: Add the group 'clover' with gid 500
+      ansible.builtin.group:
+        name: clover
+        gid: 500
+        state: present
+
+    - name: Add the user 'clover' with predefined password
+      ansible.builtin.user:
+        name: clover
+        comment: Clover Application
+        password: '$6$JARYAckKsHYac1Gj$xZKt1hkHF.qAYYKCcQXL13Ks7xMr0n3OsMQQXTTdBk5XG6gUR2VaUUWVnXbELA2YnqeX6.bJg28Jtmw9DGuS8/'
+        uid: 500
+        group: clover
+        state: present
+        createhome: yes
+        home: /clover
+  
+    - name: Ensure user 'clover' can make sudo
+      ansible.builtin.user:
+        name: clover
+        groups: wheel
+        append: yes
+
+
+    - name: Folder '/clover' must exists with correct permissions
+      ansible.builtin.file:
+        path: /clover
+        owner: clover
+        group: clover
+        state: directory
+        mode: '0755'
+  
+  # permissions will come from mountpoint 
+  #- name: Folder '/cloverIO' must exists with correct permissions
+  #  ansible.builtin.file:
+  #    path: /cloverIO
+  #    owner: clover
+  #    group: clover
+  #    state: directory
+  #    mode: '0755'      
+  
+    - name: Folder '/cloverLocal' must exists with correct permissions
+      ansible.builtin.file:
+        path: /cloverLocal
+        owner: clover
+        group: clover
+        state: directory
+        mode: '0755'      
+
+    - name: Install Software for 4LeafClover
+      ansible.builtin.dnf:
+        name: 
+          - python2-PyMySQL
+          - python3-PyMySQL
+          - mysql
+          - mysql-common
+          - mysql-errmsg
+          - mysql-server
+        state: present
+    become: true
+    #become_user: opsans
+    #   ignore_errors: true
+
+
+
+  - name: Database user 4lcuser exists
+  #- name: Create user with password, all database privileges and 'WITH GRANT OPTION' in database 4lclover 
+    community.mysql.mysql_user:
+      login_user: root
+      login_password: '{{ mysql_root_pwd }}'
+      #login_password: newpass
+      #host: localhost
+      #login_unix_socket: /path/to/mysqld/socket
+      name: 4lcuser
+      password: 4lcpwd
+      priv: 
+        '4lclover.*': 'ALL,GRANT'
+      state: present
+        
+
+
+  - name: Removes all anonymous user accounts
+    community.mysql.mysql_user:
+      login_user: root
+      login_password: '{{ mysql_root_pwd }}'
+  #    #host: localhost
+  #    login_unix_socket: /path/to/mysqld/socket
+      name: ''
+      state: absent
+
+...

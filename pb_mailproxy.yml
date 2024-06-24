@@ -1,0 +1,17 @@
+---
+- name: Setup Mailproxy for MECOM
+  hosts: co-mailproxy1v
+  become: yes
+  
+  roles:
+    - docker
+
+
+  #tasks:
+
+  #- name: Add the user 'Erwin Jenisch' 
+  #  ansible.builtin.user:
+  #    name: admjenischer
+  #    # comment: Erwin Jenisch # comment doesnt work at the moment on Rocky 8.7
+  #    state: present
+  
