@@ -1,5 +1,5 @@
-
-handlers:
+---
+  # Handler to restart the chrony service
   - name: restart_chrony
     service:
       name: chronyd
