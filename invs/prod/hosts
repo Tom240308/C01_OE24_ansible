@@ -1,3 +1,23 @@
+[oe24:children]
+oe24_ah
+oe24_odc
+setup
+
+
+[oe24_ah:children]
+TVNFS
+
+[oe24_odc:children]
+clover
+claro
+
+
+[TVNFS]
+ah-tvnfs03v ansible_host=10.10.0.193
+ah-tvnfs04v ansible_host=10.10.0.194
+
+
+
 [puzzleflow]
 # not managable ssh host key problems, host is to old
 #co-pfdb1v ansible_host=10.20.0.31
@@ -14,8 +34,11 @@
 co-4lc4v ansible_host=10.20.0.161
 co-4lc5v ansible_host=10.20.0.162
 
-[TVNFS]
-ah-tvnfs03v ansible_host=10.10.0.193
+[claro]
+co-claro5v ansible_host=10.20.0.113 ansible_user=cetinmurat
+co-claro6v ansible_host=10.20.0.114 ansible_user=cetinmurat
+
+
 
 
 #[dellos6]
