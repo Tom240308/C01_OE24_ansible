@@ -35,8 +35,8 @@ co-4lc4v ansible_host=10.20.0.161
 co-4lc5v ansible_host=10.20.0.162
 
 [claro]
-co-claro5v ansible_host=10.20.0.113 ansible_user=cetinmurat
-co-claro6v ansible_host=10.20.0.114 ansible_user=cetinmurat
+co-claro5v ansible_host=10.20.0.113
+co-claro6v ansible_host=10.20.0.114
 
 
 
