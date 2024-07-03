@@ -1,0 +1,30 @@
+- name: configure chrony
+  hosts: oe24
+  become: yes
+  gather_facts: no
+  tasks:
+
+  - name: stop and disable ntp
+    service:
+      name: ntpd
+      state: stopped
+      enabled: no
+    ignore_errors: yes
+
+  - name: install chrony
+    yum:
+      name:
+        - chrony
+      state: present
+    notify: restart_chrony
+
+  - name: copy chrony config template
+    template:
+      src: files/chrony.conf
+      dest: /etc/chrony.conf
+      owner: root
+      group: root
+      mode: '0644'
+    notify: restart_chrony
+
+

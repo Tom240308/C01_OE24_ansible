@@ -1,0 +1,7 @@
+- name: configure standard services
+  hosts: oe24
+  become: yes
+  gather_facts: no
+
+  roles:
+    - chrony
