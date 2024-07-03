@@ -2,16 +2,88 @@
 - name: Setup Mailproxy for MECOM
   hosts: co-mailproxy1v
   become: yes
-  
+
   roles:
-    - docker
+  - docker
 
 
-  #tasks:
+  tasks:
+    - name: Add Git software
+      ansible.builtin.dnf:
+        name:
+        - git
+        state: present
 
-  #- name: Add the user 'Erwin Jenisch' 
-  #  ansible.builtin.user:
-  #    name: admjenischer
-  #    # comment: Erwin Jenisch # comment doesnt work at the moment on Rocky 8.7
-  #    state: present
-  
+
+    - name: Add user 'mailproxy'
+      ansible.builtin.user:
+        name: mailproxy
+        comment: Mailproxy application user
+        groups: docker
+
+    - name: Add dot-ssh folder for user mailporxy
+      ansible.builtin.file:
+        name: /home/mailproxy/.ssh
+        state: directory
+        owner: mailproxy
+        group: mailproxy
+        mode: '0700'
+
+    - name: Copy Allcore deploy key
+      ansible.builtin.copy:
+        src: allcore_github_readonly
+        dest: /home/mailproxy/.ssh/allcore_github_readonly
+        owner: mailproxy
+        group: mailproxy
+        mode: '0600'
+
+    - name: Create folder for mailproxy
+      ansible.builtin.file:
+        path: /srv/mailproxy
+        state: directory
+        owner: mailproxy
+        group: mailproxy
+
+    - block:
+      - name: Git checkout
+        #become: yes
+        #become_user: mailproxy
+        ansible.builtin.git:
+          repo: git@github.com:Tom240308/Mecompop3.git
+          dest: /srv/mailproxy/Mecompop3
+          #version: release-0.22
+          key_file: /home/mailproxy/.ssh/allcore_github_readonly
+          accept_newhostkey: yes
+          #accept_hostkey: yes
+          clone: yes
+          #force: yes
+          #update: yes
+
+
+      - name: Start the Mailproxy
+        become: yes
+        become_user: mailproxy
+
+        community.docker.docker_compose_v2:
+          project_src: /srv/mailproxy/Mecompop3
+          #built:
+        environment:
+          - MAILLOG: "{{ MAILLOG }}"
+          - CLIENT_ID: "{{ CLIENT_ID }}"
+          - REQUEST_URL: "{{ REQUEST_URL }}"
+          - CLIENT_SECRET: "{{ CLIENT_SECRET }}"
+          - REFRESH_TOKEN: "{{ REFRESH_TOKEN }}"
+
+        register: output
+        tags:
+        - testdocker
+      - debug:
+          var: output
+        tags:
+          - testdocker
+
+      become: yes
+      #become_method: su
+      become_user: mailproxy
+      tags:
+          - testgit
