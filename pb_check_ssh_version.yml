@@ -1,0 +1,15 @@
+---
+- name: CVE-2024-6387 check 
+  hosts: all
+  become: yes
+
+#  roles:
+#  - docker
+
+  tasks:
+- name: Get openssh-server version
+  shell: 'dpkg -s openssh-server | grep "^Version" | sed -re "s/^.*:([0-9]+\.[0-9]+).*/\1/"'
+  register: openssh_version
+
+- debug:
+    msg:   openssh_version
