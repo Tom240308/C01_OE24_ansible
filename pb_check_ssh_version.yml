@@ -7,9 +7,9 @@
 #  - docker
 
   tasks:
-- name: Get openssh-server version
-  shell: 'dpkg -s openssh-server | grep "^Version" | sed -re "s/^.*:([0-9]+\.[0-9]+).*/\1/"'
-  register: openssh_version
+    - name: Get openssh-server version
+      shell: 'dpkg -s openssh-server | grep "^Version" | sed -re "s/^.*:([0-9]+\.[0-9]+).*/\1/"'
+      register: openssh_version
 
-- debug:
-    msg:   openssh_version
+    - debug:
+      msg:   openssh_version
